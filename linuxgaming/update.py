@@ -35,10 +35,15 @@ def rss_update():
         for feed in feeds:
 
             trimtitle = feed.title[0:150]
+
+            if not hasattr(feed, 'description'):
+                description = ""
+            else:
+                description = feed.description
             data = {"name": section,
                     "icon": feed_config[section]['icon'],
                     "title": trimtitle,
-                    "description": feed.description,
+                    "description": description,
                     "url": feed.link,
                     "type": feed_config[section]['rss']['type'],
                     "date": dateutil.parser.parse(feed.updated)}

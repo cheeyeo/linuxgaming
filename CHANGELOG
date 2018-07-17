@@ -1,7 +1,11 @@
 
 
 
+Wed 18 Jul
+---
 
+  - Added new source "Xpenguin"
+  - RSS description check added.
 
 Tue 17 Jul
 ---
@@ -14,3 +18,4 @@ Tue 17 Jul
  - Added new type "podcast"
  - Added new search path
  - Added new source, "Mostly Linux Podcast"
+ - Added GoG source and test page

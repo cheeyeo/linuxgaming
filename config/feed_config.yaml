@@ -73,3 +73,11 @@ MostlyLinux:
     website: "http://mostlylinux.libsyn.com"
     type: "podcast"
     url: "http://mostlylinux.libsyn.com/rss"
+
+XPenguin:
+  icon: "xpenguin.png"
+  about: "A weekly Linux gaming podcast hosted by HexDSL and HamishTPB."
+  rss:
+    website: "http://xpenguin.club/"
+    type: "podcast"
+    url: "http://xpenguin.club/rss.xml"

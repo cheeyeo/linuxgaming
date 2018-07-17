@@ -13,4 +13,3 @@
   - Move updates to AWS Lambda function 
   - Add Itch.io games
   - Add Steam games
-  - Add GoG
