@@ -3,14 +3,14 @@
 
 ## pre 1.0
 
-  - Page / limit results on main page.
-    - Add search options to reflect this.
+  - Add better searching
   - Refactor code
   
 
 ## other
 
   - Add menu with source info / about etc
+  - Move updates to AWS Lambda function 
   - Add Itch.io games
   - Add Steam games
   - Add GoG
