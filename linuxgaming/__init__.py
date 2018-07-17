@@ -2,6 +2,9 @@ from flask import render_template, Flask
 from flask_compress import Compress
 from flask_pymongo import PyMongo
 from flask_htmlmin import HTMLMIN
+from datetime import datetime, timedelta
+
+import dateutil.parser
 from . import update
 from . import details
 
@@ -26,10 +29,15 @@ def create_app():
     # register blueprint modules
     app.register_blueprint(update.bp)
     app.register_blueprint(details.bp)
+    
+
+# {"date":{'$lte': search_date.strftime("%Y-%m-%d %H:%M:%S"}}
 
     @app.route("/")
     def home():
-        all_data = mongo.db.items.find().sort('date', -1)
+
+        today = datetime.now()
+        all_data = mongo.db.items.find({"date":{'$gte': today - timedelta(hours=24)}}).sort('date', -1)
         return render_template('pages/list.html', entries=all_data)
 
     @app.errorhandler(500)
@@ -48,4 +56,10 @@ def create_app():
             icon="frown",
             msg="I think you are lost!"), 404
 
+    @app.template_filter('strftime')
+    def _jinja2_filter_datetime(date, fmt=None):
+        date = dateutil.parser.parse(str(date))
+        native = date.replace(tzinfo=None)
+        format='%a %d %b %X %Y'
+        return native.strftime(format) 
     return app

@@ -3,7 +3,6 @@
 
 ## pre 1.0
 
-  - Get configs from ENV
   - Page / limit results on main page.
     - Add search options to reflect this.
   - Refactor code

@@ -19,7 +19,7 @@
     <td>
         {{ item.title }}
     </td>
-    <td>{{ item.date }}</td>
+    <td>{{ item.date|strftime}}</td>
     <td>
       <a href="{{ item.url }}" target="_blank">
         <i class="external alternate olive bordered icon"></i>

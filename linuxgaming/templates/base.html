@@ -13,18 +13,46 @@
 
   <body>
     <div class="ui secondary menu"></div>
-    <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Site Logo" class="ui centered small image">
-    <div class="sub ui centered header">
-      <div class="ui labeled big input">
-        <div class="ui olive label">
-          Search..
+    <div class="sub ui centered header"></div>
+
+    <div class="ui container centered">
+
+      <div class="ui borderless small icon menu">
+        <a class="item" href="/">
+
+          <img alt="Site Logo" src="{{ url_for('static', filename='images/logo.png')}}">
+        </a>
+        <div class="item">
+           Filter
+           <i class="right arrow black large icon"></i>
         </div>
-        <input id="search" placeholder="Search..." type="text">
+        <a class="item">
+          <i class="twitch purple link large icon"></i>
+        </a>
+        <a class="item">
+          <i class="youtube red large icon"></i>
+        </a>
+        <a class="item">
+          <i class="rss orange large icon"></i>
+        </a>
+        <a class="item">
+          <i class="steam black large icon"></i>
+        </a>
+        <a class="item">
+          <i class="bomb red large icon"></i>
+        </a>
+        <div class="right item">
+          <div class="ui icon input">
+            <input id="search" placeholder="Search..." type="text">
+            <i class="search olive icon"></i>
+          </div>
+        </div>
       </div>
-  
+
     </div>
 
     <div class="ui hidden divider"></div>
+
     <div class="ui container">
       {% block content %}
       {% endblock %}
