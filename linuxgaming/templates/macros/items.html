@@ -1,0 +1,29 @@
+{% macro show_item(item) %}
+  <tr>
+      <td>
+        {% if "twitch.tv" in item.url %}
+           <i text='twitch' class="twitch inverted purple bordered icon"></i>
+        {% elif "youtube.com" in item.url %}
+          <i class="youtube red bordered inverted icon"></i>
+        {% elif "gog.com" in item.url %}
+          <i class="game blue bordered inverted icon"></i>
+        {% else %}
+           <i class="rss orange bordered inverted icon"></i>
+        {% endif %}
+      </td>
+      <td>
+          <a href="/details/{{ item.name }}">        
+              <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
+          </a>
+      </td>
+    <td>
+        {{ item.title }}
+    </td>
+    <td>{{ item.date }}</td>
+    <td>
+      <a href="{{ item.url }}" target="_blank">
+        <i class="external alternate olive bordered icon"></i>
+      </a>
+    </td>
+  </tr>
+{% endmacro %}

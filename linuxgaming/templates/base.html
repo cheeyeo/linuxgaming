@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux gaming sources in one place!</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css')}}">
+  </head>
+
+  <body>
+    <div class="ui secondary menu"></div>
+    <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Site Logo" class="ui centered small image">
+    <div class="sub ui centered header">
+      <div class="ui labeled big input">
+        <div class="ui olive label">
+          Search..
+        </div>
+        <input id="search" placeholder="Search..." type="text">
+      </div>
+  
+    </div>
+
+    <div class="ui hidden divider"></div>
+    <div class="ui container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://semantic-ui.com/javascript/library/tablesort.min.js"></script>
+      <script src="{{ url_for('static', filename='js/script.js')}}"></script>
+  </body>
+</html>

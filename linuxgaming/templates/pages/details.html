@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% from "macros/items.html" import show_item with context %}
+
+{% block content %}
+
+<h2 class="ui header"><a href="/"><i class="backward icon"></i>
+    <div class="content">Back</div></a>
+</h2>
+
+<div class="ui centered items">
+
+  <div class="item">
+    <div class="image">
+      <img src="{{ url_for('static', filename='images/icons/large_')}}{{ data.icon }}">
+    </div>
+    <div class="middle aligned content">
+      <a class="header">{{ data.name }}</a>
+      <div class="description">
+        <p>{{ data.about }}</p>
+      </div>
+      <div class="extra">
+       {% if data.twitch %}
+          <a href="{{ data.twitch.website }}" class="ui purple small label" target="_blank">
+            <i class="icon twitch"></i> Streams
+          </a>
+        {% endif %}
+        {% if data.rss %}
+          <a href="{{ data.rss.website }}" class="ui orange small label" target="_blank">
+            <i class="icon rss"></i> Articles
+          </a>
+        {% endif %}
+        {% if data.youtube %}
+          <a href="{{ data.youtube.website }}" class="ui red small label" target="_blank">
+            <i class="icon youtube"></i> YouTube
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<table class="ui striped very compact small olive table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Source</th>
+      <th>Title</th>
+      <th>Released</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for e in items %}
+      {{ show_item(e) }}
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+
