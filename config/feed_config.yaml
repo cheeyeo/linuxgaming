@@ -3,6 +3,7 @@ linux_gaming:
   about: "/r/Linux_Gaming is for informative and interesting gaming content and discussions. If you have a question, please check the wiki before posting."
   rss:
     website: "https://www.reddit.com/r/linux_gaming/"
+    type: "article"
     url: "https://www.reddit.com/r/linux_gaming/new/.rss?limit=300"
 
 GoG:
@@ -40,6 +41,7 @@ GamingOnLinux:
   about: "A little bit of information on who GamingOnLinux are, we are just a small group of passionate Linux fans who wish to bring you nothing but the best in Linux gaming news. Started by liamdawe on his own in 2009 on a .info address, we later switched to using a .com domain name."
   rss:
     website: "https://www.gamingonlinux.com/"
+    type: "article"
     url: "https://www.gamingonlinux.com/article_rss.php"
   twitch:
     website: "https://www.twitch.tv/gamingonlinux/"
@@ -50,6 +52,7 @@ BLGP:
   about: "The Best Linux Games Podcast features only the best news, reviews, and deals exclusively focusing on titles available for the Linux OS. Heavily focuses on Steam titles. Pushed onto teh interwebs every Saturday and hosted by Skookiesprite, the podcast brings an entire week's worth of news, reviews, tech tips, and the best-loved DEALS! Segment straight into your brain."
   rss:
     website: "http://www.bestlinuxgames.com/"
+    type: "podcast"
     url: "http://feeds.soundcloud.com/users/soundcloud:users:59417723/sounds.rss"
   twitch:
     website: "https://www.twitch.tv/skookiesprite/"
@@ -60,5 +63,13 @@ LinuxGameConsortium:
   about: "Since we maintain the foundation of the Linux community. Yet supporting Linux Gaming through the distrubution of up-to-date content directly from the developers and PR staff. This includes gaming news and information posts, Twitter comments/postings, and/or other social media contact and submissions. Sharing current information and to deter the suggestion that, 'Linux gaming is not widely supported outside of the community'."
   rss:
     website: "https://linuxgameconsortium.com"
+    type: "article"
     url: "https://linuxgameconsortium.com/feed/"
-    
+
+MostlyLinux:
+  icon: "mostlylinux.png"
+  about: "Gaming with a touch of Linux and a libertarianish ethos. We are #Freedom #Linux #Privacy #FreeMarkets #Mostly_Gaming."
+  rss:
+    website: "http://mostlylinux.libsyn.com"
+    type: "podcast"
+    url: "http://mostlylinux.libsyn.com/rss"

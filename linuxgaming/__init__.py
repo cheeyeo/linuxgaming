@@ -33,8 +33,6 @@ def create_app():
     app.register_blueprint(search.bp)
     
 
-# {"date":{'$lte': search_date.strftime("%Y-%m-%d %H:%M:%S"}}
-
     @app.route("/")
     def home():
 

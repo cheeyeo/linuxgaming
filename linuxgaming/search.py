@@ -35,6 +35,12 @@ def podcast():
     all_data = current_app.mongo.db.items.find({"type" : "podcast"}).sort('date', -1)
     return render_template('pages/search.html', entries=all_data, count=all_data.count(), source="podcasts")
 
+@bp.route("/gog", methods=('GET', 'POST'))
+def gog():
+
+    all_data = current_app.mongo.db.items.find({"name" : "gog"}).sort('date', -1)
+    return render_template('pages/search.html', entries=all_data, count=all_data.count(), source="gog")
+
 @bp.route("/allthethings", methods=('GET', 'POST'))
 def allthethings():
 

@@ -34,18 +34,13 @@ def rss_update():
 
         for feed in feeds:
 
-            if "soundcloud.com" in feed.link:
-                article_type = "podcast"
-            else:
-                article_type = "article"
-
             trimtitle = feed.title[0:150]
             data = {"name": section,
                     "icon": feed_config[section]['icon'],
                     "title": trimtitle,
                     "description": feed.description,
                     "url": feed.link,
-                    "type": article_type,
+                    "type": feed_config[section]['rss']['type'],
                     "date": dateutil.parser.parse(feed.updated)}
 
             try:
@@ -176,8 +171,6 @@ def youtube_update():
 @bp.route('/gog', methods=('GET', 'POST'))
 def gog_update():
 
-    return "Not ready yet"
-
     from datetime import datetime
 
     count = 1
@@ -190,48 +183,44 @@ def gog_update():
                 icon="frown",
                 msg="GoG query error")
 
-        feed_config = load()
+        for search_result in game_data['products']:
 
-        for section in feed_config:
-            if 'gog' not in feed_config[section]:
+            if not search_result['worksOn']['Linux']:
                 continue
 
-            for search_result in game_data['products']:
+            if not search_result['buyable']:
+                continue
 
-                if not search_result['worksOn']['Linux']:
-                    continue
+            if search_result['isComingSoon']:
+                continue
 
-                if not search_result['buyable']:
-                    continue
+            if "Soundtrack" in search_result['title']:
+                continue
 
-                if search_result['isComingSoon']:
-                    continue
+            if search_result['releaseDate']:
+                release_date = datetime.fromtimestamp(
+                    search_result['releaseDate']).isoformat()
+            else:
+                release_date = datetime.fromtimestamp(
+                    search_result['salesVisibility']['from']).isoformat()
 
-                if "Soundtrack" in search_result['title']:
-                    continue
+            data = {
+                "name": "gog",
+                "icon": "gog.png",
+                "type": "gog",
+                "title": search_result['title'],
+                "image": "https:" + search_result['image'] + ".png",
+                "publisher": search_result['publisher'],
+                "category": search_result['category'],
+                "url": "https://www.gog.com" + search_result['url'],
+                "date": dateutil.parser.parse(release_date)}
 
-                if search_result['releaseDate']:
-                    release_date = datetime.fromtimestamp(
-                        search_result['releaseDate']).isoformat()
-                else:
-                    release_date = datetime.fromtimestamp(
-                        search_result['salesVisibility']['from']).isoformat()
-
-                data = {
-                    "name": section,
-                    "icon": feed_config[section]['icon'],
-                    "title": search_result['title'],
-                    "publisher": search_result['publisher'],
-                    "category": search_result['category'],
-                    "url": "https://www.gog.com" + search_result['url'],
-                    "date": dateutil.parser.parse(release_date)}
-
-                try:
-                    current_app.mongo.db.items.replace_one(
-                        {'title': search_result['title']}, data, True)
-                except Exception as e:
-                    return render_template(
-                        "message.html", icon="frown", msg=str(e))
+            try:
+                current_app.mongo.db.items.replace_one(
+                    {'title': search_result['title']}, data, True)
+            except Exception as e:
+                return render_template(
+                    "message.html", icon="frown", msg=str(e))
 
         count = count + 1
 

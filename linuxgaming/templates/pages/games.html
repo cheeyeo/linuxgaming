@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros/items.html" import show_item with context %}
+{% from "macros/cards.html" import show_card with context %}
 
 {% block content %}
 
@@ -19,25 +19,17 @@
 {% endwith %}
 
 <div class="ui horizontal divider">
-  Last 24 hours
+  {{ count }} {{ source }} Results
 </div>
 
-<table class="ui striped very compact small olive table">
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th data-title="Source" data-content="Click the source to filter by them" data-position="top center">Source</th>
-      <th>Title</th>
-      <th>Released</th>
-      <th>Link</th>
-    </tr>
-  </thead>
-  <tbody>
+<div class="ui three cards">
+  
     {% for e in entries %}
-      {{ show_item(e) }}
+      {{ show_card(e) }}
     {% endfor %}
-  </tbody>
-</table>
+
+</div>
+
 {% endblock %}
 
 

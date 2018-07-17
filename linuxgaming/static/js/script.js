@@ -14,8 +14,11 @@ $("#search").keyup(function() {
     });
 });
 
-$('.item')
+$('.item, .img, .th')
   .popup({
   	position : 'bottom center'
-  })
-;
+});
+
+$('.three.cards .image').dimmer({
+  on: 'hover'
+});
