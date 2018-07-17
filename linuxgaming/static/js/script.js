@@ -13,3 +13,9 @@ $("#search").keyup(function() {
 
     });
 });
+
+$('.item')
+  .popup({
+  	position : 'bottom center'
+  })
+;

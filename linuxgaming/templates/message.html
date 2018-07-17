@@ -10,7 +10,8 @@
   </head>
   <body>
     <div class="ui container">
-      <h2 class="ui center aligned icon header"><i class="{{ icon }} icon"></i>
+      <h2 class="ui center aligned icon header">
+        <img alt="Site Logo" src="{{ url_for('static', filename='images/logo.png')}}">
         <div class="content"></div>
         <div class="sub header">{{ msg }}</div>
         <div class="sub header">

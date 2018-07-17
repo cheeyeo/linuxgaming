@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "macros/items.html" import show_item with context %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+        <div class="ui massive red icon message">
+          <i class="spinner loading icon"></i>
+          <div class="content">
+            <div class="header">
+              {{ message }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+
+<div class="ui horizontal divider">
+  Last 24 hours
+</div>
+
+<table class="ui striped very compact small olive table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th data-variation="inverted" data-title="Source" data-content="Click the source to filter by them" data-position="top center">Source</th>
+      <th>Title</th>
+      <th>Released</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for e in entries %}
+      {{ show_item(e) }}
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+

@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import dateutil.parser
 from . import update
 from . import details
+from . import search
 
 compress = Compress()
 
@@ -29,6 +30,7 @@ def create_app():
     # register blueprint modules
     app.register_blueprint(update.bp)
     app.register_blueprint(details.bp)
+    app.register_blueprint(search.bp)
     
 
 # {"date":{'$lte': search_date.strftime("%Y-%m-%d %H:%M:%S"}}
@@ -38,7 +40,7 @@ def create_app():
 
         today = datetime.now()
         all_data = mongo.db.items.find({"date":{'$gte': today - timedelta(hours=24)}}).sort('date', -1)
-        return render_template('pages/list.html', entries=all_data)
+        return render_template('pages/home.html', entries=all_data)
 
     @app.errorhandler(500)
     def internal_error(error):

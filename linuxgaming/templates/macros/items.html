@@ -1,14 +1,16 @@
 {% macro show_item(item) %}
   <tr>
       <td>
-        {% if "twitch.tv" in item.url %}
+        {% if "twitch" in item.type %}
            <i text='twitch' class="twitch inverted purple bordered icon"></i>
-        {% elif "youtube.com" in item.url %}
+        {% elif "youtube" in item.type %}
           <i class="youtube red bordered inverted icon"></i>
-        {% elif "gog.com" in item.url %}
+        {% elif "gog" in item.type %}
           <i class="game blue bordered inverted icon"></i>
-        {% else %}
+        {% elif "article" in item.type %}
            <i class="rss orange bordered inverted icon"></i>
+        {% else %}
+           <i class="soundcloud blue bordered inverted icon"></i>
         {% endif %}
       </td>
       <td>

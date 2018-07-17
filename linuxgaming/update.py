@@ -33,12 +33,19 @@ def rss_update():
         feeds = parse(feed_config[section]['rss']['url'])
 
         for feed in feeds:
+
+            if "soundcloud.com" in feed.link:
+                article_type = "podcast"
+            else:
+                article_type = "article"
+
             trimtitle = feed.title[0:150]
             data = {"name": section,
                     "icon": feed_config[section]['icon'],
                     "title": trimtitle,
                     "description": feed.description,
                     "url": feed.link,
+                    "type": article_type,
                     "date": dateutil.parser.parse(feed.updated)}
 
             try:
@@ -89,6 +96,7 @@ def twitch_update():
                 "title": trimtitle,
                 "description": search_results['description'],
                 "url": search_results['url'],
+                "type": "twitch",
                 "date": dateutil.parser.parse(search_results['recorded_at'])
             }
 
@@ -140,6 +148,7 @@ def youtube_update():
                     "icon": feed_config[section]['icon'],
                     "title": trimtitle,
                     "description": search_result['snippet']['description'],
+                    "type": "youtube",
                     "url": "https://www.youtube.com/watch?v=" +
                     search_result['id']['videoId'],
                     "date": dateutil.parser.parse(

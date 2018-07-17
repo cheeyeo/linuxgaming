@@ -1,0 +1,15 @@
+
+
+
+
+
+Tue 17 Jul
+---
+
+ - Major update to the UI.
+   - Added menu 
+   - Front page now shows past 24 hours
+   - Updated error pages
+ - Added type object to MongoDB
+ - Added new type "podcast"
+ - Added new search path
