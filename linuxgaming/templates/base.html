@@ -11,7 +11,6 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css" 
           integrity="sha256-ncjDAd2/rm/vaNTqp7Kk96MfSeHACtbiDU9NWKqNuCI=" 
           crossorigin="anonymous" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css')}}">
   </head>
 
   <body>
@@ -37,10 +36,14 @@
         <a class="item" href="/search/podcast" data-content="Filter by Podcasts">
           <i class="soundcloud blue large icon"></i>
         </a>
-        <a class="item" href="/search/allthethings" data-title="Show EVERYTHING!" data-content="Good luck rendering this...">
-          <i class="exclamation red large icon" ></i>
-        </a>
         <div class="right item">
+
+          <a class="item" href="/search/allthethings" data-title="Show EVERYTHING!" data-content="Good luck rendering this...">
+            <i class="exclamation red large icon" ></i>
+          </a>
+          <div class="item">
+            <i class="ellipsis vertical disabled icon"></i>
+          </div>
           <div class="ui icon input">
             <input id="search" placeholder="Search..." type="text">
             <i class="search olive icon"></i>

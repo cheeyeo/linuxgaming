@@ -10,17 +10,6 @@ import yaml
 bp = Blueprint('search', __name__, url_prefix='/search')
 
 
-def load():
-    """Return the YAML parsed config file."""
-    try:
-        with open('config/feed_config.yaml', 'r') as ymlfile:
-            cfg = yaml.load(ymlfile)
-    except yaml.YAMLError as exc:
-        current_app.logger.error('YAML read error %s', exc)
-
-    return cfg
-
-
 @bp.route("/twitch", methods=('GET', 'POST'))
 def twitch():
 
