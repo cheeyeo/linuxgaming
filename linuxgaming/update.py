@@ -213,7 +213,7 @@ def gog_update():
             data = {
                 "name": "gog",
                 "icon": "gog.png",
-                "type": "gog",
+                "type": "game",
                 "title": search_result['title'],
                 "image": "https:" + search_result['image'] + ".png",
                 "publisher": search_result['publisher'],

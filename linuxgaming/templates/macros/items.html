@@ -5,20 +5,23 @@
            <i text='twitch' class="twitch inverted purple bordered icon"></i>
         {% elif "youtube" in item.type %}
           <i class="youtube red bordered inverted icon"></i>
-        {% elif "gog" in item.type %}
+        {% elif "game" in item.type %}
           <i class="game blue bordered inverted icon"></i>
         {% elif "article" in item.type %}
            <i class="rss orange bordered inverted icon"></i>
-        {% elif "gog" in item.type %}
-           <i class="game grey bordered inverted icon"></i>
         {% else %}
            <i class="soundcloud blue bordered inverted icon"></i>
         {% endif %}
       </td>
       <td>
-          <a href="/details/{{ item.name }}">        
-              <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
+        {% if not "gog" in item.name %}
+          <a href="/details/{{ item.name }}">
+            <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
           </a>
+        {% else %}
+          <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
+        {% endif %}
+
       </td>
     <td>
         {{ item.title }}
