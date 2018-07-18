@@ -35,7 +35,8 @@ def create_app():
 
     @app.route("/")
     def home():
-        result = database.db_search({"date": {'$gte': datetime.now() - timedelta(hours=24)}})
+        result = database.db_search(
+            {"date": {'$gte': datetime.now() - timedelta(hours=24)}})
         return render_template('pages/home.html', entries=result)
 
     @app.errorhandler(500)

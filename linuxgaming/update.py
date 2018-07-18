@@ -137,7 +137,8 @@ def youtube_update():
             q="",
             channelId=youtube_channelID,
             part='id,snippet',
-            maxResults=40
+            order='date',
+            maxResults=5
         ).execute()
 
         for search_result in search_response.get('items', []):
