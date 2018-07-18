@@ -29,7 +29,7 @@ def rss_update():
         if 'rss' not in feed_config[section]:
             continue
 
-        print("Updating - " + section)
+        current_app.logger.info('[RSS] Updating %s', section)
         feeds = parse(feed_config[section]['rss']['url'])
 
         for feed in feeds:
@@ -71,7 +71,7 @@ def twitch_update():
         if 'twitch' not in feed_config[section]:
             continue
 
-        print("Updating " + section)
+        current_app.logger.info('[TWITCH] Updating %s', section)
         twitch_channelID = feed_config[section]['twitch']['twitch_id']
 
         client = TwitchClient(
@@ -132,7 +132,7 @@ def youtube_update():
         youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                         developerKey=DEVELOPER_KEY)
 
-        print("Updating - " + section)
+        current_app.logger.info('[YOUTUBE] Updating %s', section)
         search_response = youtube.search().list(
             q="",
             channelId=youtube_channelID,

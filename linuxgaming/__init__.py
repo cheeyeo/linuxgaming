@@ -31,13 +31,13 @@ def create_app():
     app.register_blueprint(update.bp)
     app.register_blueprint(details.bp)
     app.register_blueprint(search.bp)
-    
 
     @app.route("/")
     def home():
 
         today = datetime.now()
-        all_data = mongo.db.items.find({"date":{'$gte': today - timedelta(hours=24)}}).sort('date', -1)
+        all_data = mongo.db.items.find(
+            {"date": {'$gte': today - timedelta(hours=24)}}).sort('date', -1)
         return render_template('pages/home.html', entries=all_data)
 
     @app.errorhandler(500)
@@ -60,6 +60,6 @@ def create_app():
     def _jinja2_filter_datetime(date, fmt=None):
         date = dateutil.parser.parse(str(date))
         native = date.replace(tzinfo=None)
-        format='%a %d %b %X %Y'
-        return native.strftime(format) 
+        format = '%a %d %b %X %Y'
+        return native.strftime(format)
     return app
