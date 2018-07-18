@@ -1,52 +1,60 @@
 from googleapiclient.discovery import build
 from twitch import TwitchClient
 from flask import Blueprint, render_template, current_app
-from . import database
-import json
-import requests
-import feedparser
 import dateutil.parser
+from . import database
 from . import util
 
 bp = Blueprint('update', __name__, url_prefix='/update')
 
 
-def parse(url):
-    return feedparser.parse(url).entries
-
-
 @bp.route('/rss', methods=["GET"])
 def rss_update():
 
+    # load sources config
     feed_config = util.load_yaml()
 
     for section in feed_config:
+        # if it does not have an rss section skip
         if 'rss' not in feed_config[section]:
             continue
 
         current_app.logger.info('[RSS] Updating %s', section)
-        feeds = parse(feed_config[section]['rss']['url'])
+
+        # parse the source url rss feed
+        feeds = util.feed_parse(feed_config[section]['rss']['url'])
+
+        # check for errors
+        if feeds is None:
+            continue
 
         for feed in feeds:
 
-            trimtitle = feed.title[0:150]
+            # if not title, then just skip
+            if hasattr(feed, 'title'):
+                trimmed_title = feed.title[0:150]
+            else:
+                continue
 
+            # some feeds dont have a description, RSS 2.0
             if not hasattr(feed, 'description'):
                 description = ""
             else:
                 description = feed.description
 
+            # construct db item
             data = {
                 "name": section,
                 "icon": feed_config[section]['icon'],
-                "title": trimtitle,
+                "title": trimmed_title,
                 "description": description,
                 "url": feed.link,
                 "type": feed_config[section]['rss']['type'],
                 "date": dateutil.parser.parse(feed.updated)
             }
 
-            database.replace_one({'title': trimtitle}, data)
+            # insert based on title
+            database.replace_one({'title': trimmed_title}, data)
 
     return render_template("message.html", msg="RSS feeds updated!")
 
@@ -61,6 +69,7 @@ def twitch_update():
             continue
 
         current_app.logger.info('[TWITCH] Updating %s', section)
+
         twitch_channelid = feed_config[section]['twitch']['twitch_id']
 
         client = TwitchClient(
@@ -77,11 +86,11 @@ def twitch_update():
         )
 
         for search_results in videos:
-            trimtitle = search_results['title'][0:150]
+            trimmed_title = search_results['title'][0:150]
             data = {
                 "name": section,
                 "icon": feed_config[section]['icon'],
-                "title": trimtitle,
+                "title": trimmed_title,
                 "description": search_results['description'],
                 "url": search_results['url'],
                 "type": "twitch",
@@ -96,10 +105,6 @@ def twitch_update():
 @bp.route('/youtube', methods=["GET"])
 def youtube_update():
 
-    key = current_app.config['YOUTUBE_APIKEY']
-    youtube_api = 'youtube'
-    api_version = 'v3'
-
     feed_config = util.load_yaml()
 
     for section in feed_config:
@@ -108,9 +113,11 @@ def youtube_update():
 
         youtube_channel_id = feed_config[section]['youtube']['channel_id']
 
-        youtube = build(youtube_api, api_version, developerKey=key)
+        youtube = build(
+            'youtube', 'v3', developerKey=current_app.config['YOUTUBE_APIKEY'])
 
         current_app.logger.info('[YOUTUBE] Updating %s', section)
+
         search_response = youtube.search().list(
             q="",
             channelId=youtube_channel_id,
@@ -119,28 +126,26 @@ def youtube_update():
             maxResults=5).execute()
 
         for search_result in search_response.get('items', []):
-            trimtitle = search_result['snippet']['title'][0:150]
-            if search_result['id']['kind'] == 'youtube#video':
-                data = {
-                    "name":
-                    section,
-                    "icon":
-                    feed_config[section]['icon'],
-                    "title":
-                    trimtitle,
-                    "description":
-                    search_result['snippet']['description'],
-                    "type":
-                    "youtube",
-                    "url":
-                    "https://www.youtube.com/watch?v=" +
-                    search_result['id']['videoId'],
-                    "date":
-                    dateutil.parser.parse(
-                        search_result['snippet']['publishedAt'])
-                }
+            trimmed_title = search_result['snippet']['title'][0:150]
+            data = {
+                "name":
+                section,
+                "icon":
+                feed_config[section]['icon'],
+                "title":
+                trimmed_title,
+                "description":
+                search_result['snippet']['description'],
+                "type":
+                "youtube",
+                "url":
+                "https://www.youtube.com/watch?v=" +
+                search_result['id']['videoId'],
+                "date":
+                dateutil.parser.parse(search_result['snippet']['publishedAt'])
+            }
 
-                database.replace_one({'title': trimtitle}, data)
+            database.replace_one({'title': trimmed_title}, data)
 
     return render_template("message.html", msg="Youtube API updated!")
 
@@ -153,9 +158,7 @@ def gog_update():
     count = 1
     while count < 51:
         query = "mediaType=game&system=Linux&limit=50&page=" + str(count)
-        game_data = get_gog_info(query)
-        if game_data is None:
-            return render_template("message.html", msg="GoG query error")
+        game_data = util.get_gog_info(query)
 
         for search_result in game_data['products']:
 
@@ -196,15 +199,3 @@ def gog_update():
 
     return render_template(
         "message.html", icon="smile", msg="GoG games updated!")
-
-
-def get_gog_info(query):
-
-    gog_api_url = "https://embed.gog.com/games/ajax/filtered?"
-
-    response = requests.get(gog_api_url + query)
-
-    if response.status_code == 200:
-        return json.loads(response.content.decode('utf-8'))
-    else:
-        return None

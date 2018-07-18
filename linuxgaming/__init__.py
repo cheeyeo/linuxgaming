@@ -46,13 +46,13 @@ def create_app():
     def internal_error(error):
         app.logger.error('internal error %s', error)
         return render_template(
-            "message.html", icon="frown", msg="Something went wrong!"), 500
+            "message.html", msg="Something went wrong!"), 500
 
     @app.errorhandler(404)
-    def page_not_found():
+    def page_not_found(page):
         app.logger.info('page not found')
         return render_template(
-            "message.html", icon="frown", msg="I think you are lost!"), 404
+            "message.html", msg="I think you are lost!"), 404
 
     @app.template_filter('strftime')
     def _jinja2_filter_datetime(date):
