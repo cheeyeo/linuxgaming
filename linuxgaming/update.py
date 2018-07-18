@@ -1,29 +1,24 @@
 from googleapiclient.discovery import build
 from twitch import TwitchClient
 from flask import Blueprint, render_template, current_app
-import yaml
+from . import database
+import json
+import requests
 import feedparser
 import dateutil.parser
+from . import util
 
 bp = Blueprint('update', __name__, url_prefix='/update')
-
-
-def load():
-
-    with open('config/feed_config.yaml', 'r') as ymlfile:
-        cfg = yaml.load(ymlfile)
-
-    return cfg
 
 
 def parse(url):
     return feedparser.parse(url).entries
 
 
-@bp.route('/rss', methods=('GET', 'POST'))
+@bp.route('/rss', methods=["GET"])
 def rss_update():
 
-    feed_config = load()
+    feed_config = util.load_yaml()
 
     for section in feed_config:
         if 'rss' not in feed_config[section]:
@@ -40,52 +35,45 @@ def rss_update():
                 description = ""
             else:
                 description = feed.description
-            data = {"name": section,
-                    "icon": feed_config[section]['icon'],
-                    "title": trimtitle,
-                    "description": description,
-                    "url": feed.link,
-                    "type": feed_config[section]['rss']['type'],
-                    "date": dateutil.parser.parse(feed.updated)}
 
-            try:
-                current_app.mongo.db.items.replace_one(
-                    {'title': trimtitle}, data, True)
-            except Exception as e:
-                current_app.logger.error('DB replace error %s', e)
-                return render_template(
-                    "message.html", icon="frown", msg=str(e))
+            data = {
+                "name": section,
+                "icon": feed_config[section]['icon'],
+                "title": trimtitle,
+                "description": description,
+                "url": feed.link,
+                "type": feed_config[section]['rss']['type'],
+                "date": dateutil.parser.parse(feed.updated)
+            }
 
-    return render_template(
-        "message.html",
-        icon="smile",
-        msg="RSS feeds updated!")
+            database.replace_one({'title': trimtitle}, data)
+
+    return render_template("message.html", msg="RSS feeds updated!")
 
 
-@bp.route('/twitch', methods=('GET', 'POST'))
+@bp.route('/twitch', methods=["GET"])
 def twitch_update():
 
-    feed_config = load()
+    feed_config = util.load_yaml()
 
     for section in feed_config:
         if 'twitch' not in feed_config[section]:
             continue
 
         current_app.logger.info('[TWITCH] Updating %s', section)
-        twitch_channelID = feed_config[section]['twitch']['twitch_id']
+        twitch_channelid = feed_config[section]['twitch']['twitch_id']
 
         client = TwitchClient(
             client_id=current_app.config['TWITCH_CLIENTID'],
-            oauth_token=current_app.config['TWITCH_TOKEN']
-        )
+            oauth_token=current_app.config['TWITCH_TOKEN'])
 
         videos = client.channels.get_videos(
-            twitch_channelID,  # Channel ID
+            twitch_channelid,  # Channel ID
             10,  # Limit
             0,  # Offset
             'archive',  # Broadcast type
-                'en',  # Lang
-                'time',  # Sort
+            'en',  # Lang
+            'time',  # Sort
         )
 
         for search_results in videos:
@@ -100,81 +88,64 @@ def twitch_update():
                 "date": dateutil.parser.parse(search_results['recorded_at'])
             }
 
-            try:
-                current_app.mongo.db.items.replace_one(
-                    {'url': search_results['url']}, data, True)
-            except Exception as e:
-                current_app.logger.error('DB replace error %s', e)
-                return render_template(
-                    "message.html", icon="frown", msg=str(e))
+            database.replace_one({'url': search_results['url']}, data)
 
-    return render_template(
-        "message.html",
-        icon="smile",
-        msg="Twitch API updated!")
+    return render_template("message.html", msg="Twitch API updated!")
 
 
-@bp.route('/youtube', methods=('GET', 'POST'))
+@bp.route('/youtube', methods=["GET"])
 def youtube_update():
 
-    DEVELOPER_KEY = current_app.config['YOUTUBE_APIKEY']
-    YOUTUBE_API_SERVICE_NAME = 'youtube'
-    YOUTUBE_API_VERSION = 'v3'
+    key = current_app.config['YOUTUBE_APIKEY']
+    youtube_api = 'youtube'
+    api_version = 'v3'
 
-    feed_config = load()
+    feed_config = util.load_yaml()
 
     for section in feed_config:
         if 'youtube' not in feed_config[section]:
             continue
 
-        youtube_channelID = feed_config[section]['youtube']['channel_id']
+        youtube_channel_id = feed_config[section]['youtube']['channel_id']
 
-        youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                        developerKey=DEVELOPER_KEY)
+        youtube = build(youtube_api, api_version, developerKey=key)
 
         current_app.logger.info('[YOUTUBE] Updating %s', section)
         search_response = youtube.search().list(
             q="",
-            channelId=youtube_channelID,
+            channelId=youtube_channel_id,
             part='id,snippet',
             order='date',
-            maxResults=5
-        ).execute()
+            maxResults=5).execute()
 
         for search_result in search_response.get('items', []):
             trimtitle = search_result['snippet']['title'][0:150]
             if search_result['id']['kind'] == 'youtube#video':
                 data = {
-                    "name": section,
-                    "icon": feed_config[section]['icon'],
-                    "title": trimtitle,
-                    "description": search_result['snippet']['description'],
-                    "type": "youtube",
-                    "url": "https://www.youtube.com/watch?v=" +
+                    "name":
+                    section,
+                    "icon":
+                    feed_config[section]['icon'],
+                    "title":
+                    trimtitle,
+                    "description":
+                    search_result['snippet']['description'],
+                    "type":
+                    "youtube",
+                    "url":
+                    "https://www.youtube.com/watch?v=" +
                     search_result['id']['videoId'],
-                    "date": dateutil.parser.parse(
-                        search_result['snippet']['publishedAt'])}
+                    "date":
+                    dateutil.parser.parse(
+                        search_result['snippet']['publishedAt'])
+                }
 
-            try:
-                current_app.mongo.db.items.replace_one(
-                    {'title': trimtitle}, data, True)
-            except Exception as e:
-                current_app.logger.error('DB replace error %s', e)
-                return render_template(
-                    "message.html", icon="frown", msg=str(e))
+                database.replace_one({'title': trimtitle}, data)
 
-    return render_template(
-        "message.html",
-        icon="smile",
-        msg="Youtube API updated!")
-
-#
-# This GoG import is just so nasty and needs fixed, Will
-# be enabling it until it is.
-#
+    return render_template("message.html", msg="Youtube API updated!")
 
 
-@bp.route('/gog', methods=('GET', 'POST'))
+@bp.route('/gog', methods=["GET"])
 def gog_update():
 
     from datetime import datetime
@@ -184,10 +155,7 @@ def gog_update():
         query = "mediaType=game&system=Linux&limit=50&page=" + str(count)
         game_data = get_gog_info(query)
         if game_data is None:
-            return render_template(
-                "message.html",
-                icon="frown",
-                msg="GoG query error")
+            return render_template("message.html", msg="GoG query error")
 
         for search_result in game_data['products']:
 
@@ -219,33 +187,24 @@ def gog_update():
                 "publisher": search_result['publisher'],
                 "category": search_result['category'],
                 "url": "https://www.gog.com" + search_result['url'],
-                "date": dateutil.parser.parse(release_date)}
+                "date": dateutil.parser.parse(release_date)
+            }
 
-            try:
-                current_app.mongo.db.items.replace_one(
-                    {'title': search_result['title']}, data, True)
-            except Exception as e:
-                return render_template(
-                    "message.html", icon="frown", msg=str(e))
+            database.replace_one({'title': search_result['title']}, data)
 
         count = count + 1
 
     return render_template(
-        "message.html",
-        icon="smile",
-        msg="GoG games updated!")
+        "message.html", icon="smile", msg="GoG games updated!")
 
 
 def get_gog_info(query):
 
-    import json
-    import requests
+    gog_api_url = "https://embed.gog.com/games/ajax/filtered?"
 
-    GOG_API_URL = "https://embed.gog.com/games/ajax/filtered?"
-
-    response = requests.get(GOG_API_URL + query)
+    response = requests.get(gog_api_url + query)
 
     if response.status_code == 200:
-        return (json.loads(response.content.decode('utf-8')))
+        return json.loads(response.content.decode('utf-8'))
     else:
         return None

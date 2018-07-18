@@ -1,30 +1,15 @@
-from flask import (
-    Blueprint,
-    flash,
-    redirect,
-    render_template,
-    url_for,
-    current_app)
-import yaml
+from flask import (Blueprint, flash, redirect, render_template, url_for,
+                   current_app)
+from . import database
+from . import util
 
 bp = Blueprint('details', __name__, url_prefix='/details')
 
 
-def load():
-    """Return the YAML parsed config file."""
-    try:
-        with open('config/feed_config.yaml', 'r') as ymlfile:
-            cfg = yaml.load(ymlfile)
-    except yaml.YAMLError as exc:
-        current_app.logger.error('YAML read error %s', exc)
-
-    return cfg
-
-
-@bp.route("/<path:path>", methods=('GET', 'POST'))
+@bp.route("/<path:path>", methods=["GET"])
 def details(path):
     """Source details page"""
-    feed_config = load()
+    feed_config = util.load_yaml()
 
     if path in feed_config:
         source_data = feed_config[path]
@@ -33,10 +18,7 @@ def details(path):
         current_app.logger.info('Manual details probe %s', path)
         return redirect(url_for('home'))
 
-    source_items = current_app.mongo.db.items.find(
-        {"name": path}).sort('date', -1)
+    source_items = database.find_all({"name": path})
 
     return render_template(
-        'pages/details.html',
-        data=source_data,
-        items=source_items)
+        'pages/details.html', data=source_data, items=source_items)
