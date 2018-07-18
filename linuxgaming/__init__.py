@@ -1,8 +1,12 @@
+"""
+Main application
+
+"""
+from datetime import datetime, timedelta
 from flask import render_template, Flask
 from flask_compress import Compress
 from flask_pymongo import PyMongo
 from flask_htmlmin import HTMLMIN
-from datetime import datetime, timedelta
 
 import dateutil.parser
 from . import update
@@ -10,18 +14,18 @@ from . import details
 from . import search
 from . import database
 
-compress = Compress()
+COMPRESS = Compress()
 
 
 def create_app():
-    # create and configure the app
+    """ Create the Flask application """
 
     app = Flask(__name__, static_url_path='/static')
     app.config.from_object('config')
 
     # page performance tweeks
     app.config['MINIFY_PAGE'] = True
-    compress.init_app(app)
+    COMPRESS.init_app(app)
     HTMLMIN(app)
 
     # db init
@@ -50,7 +54,7 @@ def create_app():
 
     @app.errorhandler(404)
     def page_not_found(page):
-        app.logger.info('page not found')
+        app.logger.info('page not found %s', page)
         return render_template(
             "message.html", msg="I think you are lost!"), 404
 
@@ -58,7 +62,7 @@ def create_app():
     def _jinja2_filter_datetime(date):
         date = dateutil.parser.parse(str(date))
         native = date.replace(tzinfo=None)
-        format = '%a %d %b %X %Y'
-        return native.strftime(format)
+        new_format = '%a %d %b %X %Y'
+        return native.strftime(new_format)
 
     return app
