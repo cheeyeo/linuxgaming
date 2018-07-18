@@ -3,23 +3,8 @@
 
 {% block content %}
 
-{% with messages = get_flashed_messages() %}
-   {% if messages %}
-      {% for message in messages %}
-        <div class="ui massive red icon message">
-          <i class="spinner loading icon"></i>
-          <div class="content">
-            <div class="header">
-              {{ message }}
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-   {% endif %}
-{% endwith %}
-
 <div class="ui horizontal divider">
-  {{ count }} {{ source }} Results
+  {{ count }} Results
 </div>
 
 <table class="ui striped very compact small olive table">

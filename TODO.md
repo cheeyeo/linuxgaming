@@ -3,7 +3,7 @@
 
 ## pre 1.0
 
-  - Add better searching
+
   - Refactor code
   
 
@@ -14,3 +14,4 @@
   - Add API
   - Add Itch.io games
   - Add Steam games
+  - Add better searching

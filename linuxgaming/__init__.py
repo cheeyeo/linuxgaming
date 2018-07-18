@@ -8,6 +8,7 @@ import dateutil.parser
 from . import update
 from . import details
 from . import search
+from . import database
 
 compress = Compress()
 
@@ -34,11 +35,8 @@ def create_app():
 
     @app.route("/")
     def home():
-
-        today = datetime.now()
-        all_data = mongo.db.items.find(
-            {"date": {'$gte': today - timedelta(hours=24)}}).sort('date', -1)
-        return render_template('pages/home.html', entries=all_data)
+        result = database.db_search({"date": {'$gte': datetime.now() - timedelta(hours=24)}})
+        return render_template('pages/home.html', entries=result)
 
     @app.errorhandler(500)
     def internal_error(error):
