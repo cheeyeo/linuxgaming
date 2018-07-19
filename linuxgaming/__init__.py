@@ -10,7 +10,7 @@ from flask_htmlmin import HTMLMIN
 
 import dateutil.parser
 from . import update
-from . import details
+from . import sources
 from . import search
 from . import database
 
@@ -34,7 +34,7 @@ def create_app():
 
     # register blueprint modules
     app.register_blueprint(update.BP)
-    app.register_blueprint(details.BP)
+    app.register_blueprint(sources.BP)
     app.register_blueprint(search.BP)
 
     @app.route("/")

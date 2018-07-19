@@ -27,7 +27,7 @@
         </td>
         <td>
           {% if not "gog" in item.name %}
-            <a href="/details/{{ item.name }}">
+            <a href="/sources/{{ item.name }}">
               <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
             </a>
           {% else %}

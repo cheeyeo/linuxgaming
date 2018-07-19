@@ -3,7 +3,14 @@
 Thur 19 Jul
 --
 
+  - added new pages
+    - all sources
+    - gitlab link
   - refactored
+
+note: had to add an extra website field to the config file to allow me
+      to pull this info in jinja2. I suspect this can been done out with
+      this extra info but am not sure how to do it.
 
 
 Wed 18 Jul

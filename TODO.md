@@ -1,7 +1,7 @@
 # TODO
 
-  - add menu with source info / about etc
   - move updates to AWS Lambda function
+  - Fix feed_config layout, the websites part.
   - add API
   - add Itch.io games
   - add Steam games
