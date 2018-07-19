@@ -1,12 +1,17 @@
+"""
+shows more details about the current sources.
+
+:return: Blueprint
+"""
 from flask import (Blueprint, flash, redirect, render_template, url_for,
                    current_app)
 from . import database
 from . import util
 
-bp = Blueprint('details', __name__, url_prefix='/details')
+BP = Blueprint('details', __name__, url_prefix='/details')
 
 
-@bp.route("/<path:path>", methods=["GET"])
+@BP.route("/<path:path>", methods=["GET"])
 def details(path):
     """Source details page"""
     feed_config = util.load_yaml()
@@ -21,4 +26,4 @@ def details(path):
     source_items = database.find_all({"name": path})
 
     return render_template(
-        'pages/details.html', data=source_data, items=source_items)
+        'pages/details.html', data=source_data, entries=source_items)

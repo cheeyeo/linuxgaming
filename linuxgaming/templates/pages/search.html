@@ -7,22 +7,8 @@
   {{ count }} Results
 </div>
 
-<table class="ui striped very compact small olive table">
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th data-tooltip="Click the source to filter just them!" data-position="top center">Source</th>
-      <th>Title</th>
-      <th>Released</th>
-      <th>Link</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for e in entries %}
-      {{ show_item(e) }}
-    {% endfor %}
-  </tbody>
-</table>
+{{ show_item(entries) }}
+
 {% endblock %}
 
 

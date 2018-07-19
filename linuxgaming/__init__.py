@@ -33,15 +33,15 @@ def create_app():
     app.mongo = mongo
 
     # register blueprint modules
-    app.register_blueprint(update.bp)
-    app.register_blueprint(details.bp)
-    app.register_blueprint(search.bp)
+    app.register_blueprint(update.BP)
+    app.register_blueprint(details.BP)
+    app.register_blueprint(search.BP)
 
     @app.route("/")
     def home():
         result = database.find_all({
             "date": {
-                '$gte': datetime.now() - timedelta(hours=24)
+                '$gte': datetime.now() - timedelta(hours=48)
             }
         })
         return render_template('pages/home.html', entries=result)

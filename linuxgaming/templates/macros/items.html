@@ -1,36 +1,53 @@
-{% macro show_item(item) %}
-  <tr>
-      <td>
-        {% if "twitch" in item.type %}
-           <i text='twitch' class="twitch inverted purple bordered icon"></i>
-        {% elif "youtube" in item.type %}
-          <i class="youtube red bordered inverted icon"></i>
-        {% elif "game" in item.type %}
-          <i class="game blue bordered inverted icon"></i>
-        {% elif "article" in item.type %}
-           <i class="rss orange bordered inverted icon"></i>
-        {% else %}
-           <i class="soundcloud blue bordered inverted icon"></i>
-        {% endif %}
-      </td>
-      <td>
-        {% if not "gog" in item.name %}
-          <a href="/details/{{ item.name }}">
+{% macro show_item(entries) %}
+<table class="ui striped very compact small olive table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th data-tooltip="Click the source to filter just them!" data-position="top center">Source</th>
+      <th>Title</th>
+      <th>Released</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in entries %}
+      <tr>
+        <td>
+          {% if "twitch" in item.type %}
+             <i text='twitch' class="twitch inverted purple bordered icon"></i>
+          {% elif "youtube" in item.type %}
+            <i class="youtube red bordered inverted icon"></i>
+          {% elif "game" in item.type %}
+            <i class="game blue bordered inverted icon"></i>
+          {% elif "article" in item.type %}
+             <i class="rss orange bordered inverted icon"></i>
+          {% else %}
+             <i class="soundcloud blue bordered inverted icon"></i>
+          {% endif %}
+        </td>
+        <td>
+          {% if not "gog" in item.name %}
+            <a href="/details/{{ item.name }}">
+              <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
+            </a>
+          {% else %}
             <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
-          </a>
-        {% else %}
-          <img alt="{{ item.name }} icon" src="{{ url_for('static', filename='images/icons/')}}{{ item.icon }} ">
-        {% endif %}
+          {% endif %}
 
+        </td>
+      <td>
+          {{ item.title }}
       </td>
-    <td>
-        {{ item.title }}
-    </td>
-    <td>{{ item.date|strftime}}</td>
-    <td>
-      <a href="{{ item.url }}" target="_blank">
-        <i class="external alternate olive bordered icon"></i>
-      </a>
-    </td>
-  </tr>
+      <td>{{ item.date|strftime}}</td>
+      <td>
+        <a href="{{ item.url }}" target="_blank">
+          <i class="external alternate olive bordered icon"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
 {% endmacro %}

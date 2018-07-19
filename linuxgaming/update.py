@@ -1,3 +1,7 @@
+"""
+module for updating various sources.
+
+"""
 from googleapiclient.discovery import build
 from twitch import TwitchClient
 from flask import Blueprint, render_template, current_app
@@ -5,11 +9,16 @@ import dateutil.parser
 from . import database
 from . import util
 
-bp = Blueprint('update', __name__, url_prefix='/update')
+BP = Blueprint('update', __name__, url_prefix='/update')
 
 
-@bp.route('/rss', methods=["GET"])
+@BP.route('/rss', methods=["GET"])
 def rss_update():
+    """
+    update sources with rss feeds
+
+    :return: Flask render_template
+    """
 
     # load sources config
     feed_config = util.load_yaml()
@@ -59,8 +68,13 @@ def rss_update():
     return render_template("message.html", msg="RSS feeds updated!")
 
 
-@bp.route('/twitch', methods=["GET"])
+@BP.route('/twitch', methods=["GET"])
 def twitch_update():
+    """
+    update sources with twitch API
+
+    :return: Flask render_template
+    """
 
     feed_config = util.load_yaml()
 
@@ -102,9 +116,13 @@ def twitch_update():
     return render_template("message.html", msg="Twitch API updated!")
 
 
-@bp.route('/youtube', methods=["GET"])
+@BP.route('/youtube', methods=["GET"])
 def youtube_update():
+    """
+    update sources with youtube API
 
+    :return: Flask render_template
+    """
     feed_config = util.load_yaml()
 
     for section in feed_config:
@@ -150,9 +168,13 @@ def youtube_update():
     return render_template("message.html", msg="Youtube API updated!")
 
 
-@bp.route('/gog', methods=["GET"])
+@BP.route('/gog', methods=["GET"])
 def gog_update():
+    """
+    update GoG games via API
 
+    :return: Flask render_template
+    """
     from datetime import datetime
 
     count = 1
@@ -161,7 +183,9 @@ def gog_update():
         game_data = util.get_gog_info(query)
 
         for search_result in game_data['products']:
-
+            # GoG API is an arse are returns loads of entries that we
+            # dont want so all of the following if statements are to
+            # filter them out
             if not search_result['worksOn']['Linux']:
                 continue
 

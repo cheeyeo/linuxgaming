@@ -1,24 +1,31 @@
 
 
+Thur 19 Jul
+--
+
+  - refactored
+
 
 Wed 18 Jul
 ---
 
-  - Added new source "Xpenguin"
-  - RSS description check added.
-  - Refactored search page.
-  - Changed gog to type game. 
-  
+  - added new source "Xpenguin"
+  - rss description check added
+  - refactored
+  - changed gog to type game
+  - created new helper modules
+  - add humble bundle test data
+
 
 Tue 17 Jul
 ---
 
- - Major update to the UI.
-   - Added menu 
-   - Front page now shows past 24 hours
-   - Updated error pages
- - Added type object to MongoDB
- - Added new type "podcast"
- - Added new search path
- - Added new source, "Mostly Linux Podcast"
- - Added GoG source and test page
+ - major update to the UI
+   - added menu
+   - front page now shows past 24 hours
+   - updated error pages
+ - added type object to MongoDB
+ - added new type "podcast"
+ - added new search path
+ - added new source, "Mostly Linux Podcast"
+ - added gog source and test page
