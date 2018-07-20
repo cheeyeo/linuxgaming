@@ -1,7 +1,14 @@
 
+Fri 20 Jul
+---
+
+  - removing the icon field to save DB space.
+  - using icon/images based on source name.
+
+
 
 Thur 19 Jul
---
+---
 
   - added new pages
     - all sources

@@ -54,7 +54,6 @@ def rss_update():
             # construct db item
             data = {
                 "name": section,
-                "icon": feed_config[section]['icon'],
                 "title": trimmed_title,
                 "description": description,
                 "url": feed.link,
@@ -103,7 +102,6 @@ def twitch_update():
             trimmed_title = search_results['title'][0:150]
             data = {
                 "name": section,
-                "icon": feed_config[section]['icon'],
                 "title": trimmed_title,
                 "description": search_results['description'],
                 "url": search_results['url'],
@@ -148,8 +146,6 @@ def youtube_update():
             data = {
                 "name":
                 section,
-                "icon":
-                feed_config[section]['icon'],
                 "title":
                 trimmed_title,
                 "description":
@@ -206,8 +202,7 @@ def gog_update():
                     search_result['salesVisibility']['from']).isoformat()
 
             data = {
-                "name": "gog",
-                "icon": "gog.png",
+                "name": "GoG",
                 "type": "game",
                 "title": search_result['title'],
                 "image": "https:" + search_result['image'] + ".png",

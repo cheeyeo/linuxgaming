@@ -31,20 +31,46 @@ example is shite.
 
 Steam might be the best one to do first to populate the data.
 
+"name": "gog",
+"icon": "gog.png",
+"type": "game",
+"title": search_result['title'],
+"publisher": search_result['publisher'],
+"category": search_result['category'],
+"url": "https://www.gog.com" + search_result['url'],
+"date": dateutil.parser.parse(release_date)
+
 title:
+type: "game"
 release_date:
 publisher:
 catagory:
-image:
-description:
 gog:
-  url:
-hb:
+  avaliable_date:
   url:
 steam:
+  avaliable_date:
   url:
-itch:
-  url:
+
+## Steam API logic
+
+Get all games
+For each game
+  get game information
+  if linux platform
+  save
+  next
+
+get all linux games in DB for steam
+Get all games
+For each game
+  already in the DB list
+    continue
+  get game information
+  if linux platform
+  save
+  next
+
 
 ## Add API
 

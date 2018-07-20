@@ -1,5 +1,4 @@
 HexDSL:
-  icon: "hexdsl.png"
   about: "Linux Gaming Rambles, shows and streams presented by HexDSL. Apparently you don't get a lot of characters in this box. so I'll just say that I am HexDSL (Sexy Hexy) and I make videos about gaming using Linux. I also Host the .XPenguin PodCast/VideoCast that people seem to like :) You can find more of me on twitch.tv/hexdsl/ thanks for taking the time to read this."
   website: "https://www.youtube.com/user/hexdsl/"
   youtube:
@@ -10,7 +9,6 @@ HexDSL:
     twitch_id: "40594186"
 
 TheLinuxGamer:
-  icon: "thelinuxgamer.png"
   about: "Weekly content revolving around Linux gaming. Reviews, tutorials, let's plays, informational videos, and more. I produce reviews of games for Linux through the Humble Store, GOG.com, Steam, PlayDEB and more. You can always find new videos on Tuesdays. Sometimes Fridays, too!"
   website: "https://www.youtube.com/user/tuxreviews"
   youtube:
@@ -18,7 +16,6 @@ TheLinuxGamer:
     channel_id: "UCv1Kcz-CuGM6mxzL3B1_Eiw"
 
 GamingOnLinux:
-  icon: "gol.png"
   about: "A little bit of information on who GamingOnLinux are, we are just a small group of passionate Linux fans who wish to bring you nothing but the best in Linux gaming news. Started by liamdawe on his own in 2009 on a .info address, we later switched to using a .com domain name."
   website: "https://www.gamingonlinux.com/"
   rss:
@@ -30,7 +27,6 @@ GamingOnLinux:
     twitch_id: "50905707"
 
 BLGP:
-  icon: "blgp.png"
   about: "The Best Linux Games Podcast features only the best news, reviews, and deals exclusively focusing on titles available for the Linux OS. Heavily focuses on Steam titles. Pushed onto teh interwebs every Saturday and hosted by Skookiesprite, the podcast brings an entire week's worth of news, reviews, tech tips, and the best-loved DEALS! Segment straight into your brain."
   website: "http://www.bestlinuxgames.com/"
   rss:
@@ -42,7 +38,6 @@ BLGP:
     twitch_id: "167387411"
 
 LinuxGameConsortium:
-  icon: "lgc.png"
   about: "Since we maintain the foundation of the Linux community. Yet supporting Linux Gaming through the distrubution of up-to-date content directly from the developers and PR staff. This includes gaming news and information posts, Twitter comments/postings, and/or other social media contact and submissions. Sharing current information and to deter the suggestion that, 'Linux gaming is not widely supported outside of the community'."
   website: "https://linuxgameconsortium.com"
   rss:
@@ -51,7 +46,6 @@ LinuxGameConsortium:
     url: "https://linuxgameconsortium.com/feed/"
 
 XPenguin:
-  icon: "xpenguin.png"
   about: "A weekly Linux gaming podcast hosted by HexDSL and HamishTPB."
   website: "http://xpenguin.club/"
   rss:
@@ -60,7 +54,6 @@ XPenguin:
     url: "http://xpenguin.club/rss.xml"
 
 MostlyLinux:
-  icon: "mostlylinux.png"
   about: "Gaming with a touch of Linux and a libertarianish ethos. We are #Freedom #Linux #Privacy #FreeMarkets #Mostly_Gaming."
   website: "http://mostlylinux.libsyn.com"
   rss:
@@ -69,7 +62,6 @@ MostlyLinux:
     url: "http://mostlylinux.libsyn.com/rss"
 
 linux_gaming:
-  icon: "reddit.png"
   about: "/r/Linux_Gaming is for informative and interesting gaming content and discussions. If you have a question, please check the wiki before posting."
   website: "https://www.reddit.com/r/linux_gaming/"
   rss:
@@ -78,7 +70,6 @@ linux_gaming:
     url: "https://www.reddit.com/r/linux_gaming/new/.rss?limit=300"
 
 NuSuey:
-  icon: "nusuey.png"
   about: "Linux enthusiast, geek, casual streamer, the guy who made http://tuxdb.com"
   website: "https://www.twitch.tv/nusuey/"
   twitch:
@@ -86,7 +77,6 @@ NuSuey:
     twitch_id: "7863182"
 
 GoG:
-  icon: "gog.png"
   about: "GOG.com is a digital distribution platform with a curated selection of games, a 'you buy it, you own it' philosophy, and utmost care about customers."
   website: "https://www.gog.com/"
   gog:

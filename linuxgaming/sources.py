@@ -7,6 +7,7 @@ from flask import (Blueprint, flash, redirect, render_template, url_for,
                    current_app)
 from . import database
 from . import util
+import pprint
 
 BP = Blueprint('sources', __name__, url_prefix='/sources')
 
@@ -32,7 +33,11 @@ def sources(path):
         current_app.logger.info('Manual sources probe %s', path)
         return redirect(url_for('home'))
 
+    pprint.pprint(source_data)
     source_items = database.find_all({"name": path})
 
     return render_template(
-        'pages/sources.html', data=source_data, entries=source_items)
+        'pages/sources.html',
+        data=source_data,
+        entries=source_items,
+        name=path)
