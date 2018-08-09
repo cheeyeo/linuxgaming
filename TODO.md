@@ -37,17 +37,15 @@ Steam might be the best one to do first to populate the data.
 "title": search_result['title'],
 "publisher": search_result['publisher'],
 "category": search_result['category'],
-"url": "https://www.gog.com" + search_result['url'],
-"date": dateutil.parser.parse(release_date)
 
-title:
+title: "title": search_result['title'],
 type: "game"
 release_date:
 publisher:
 catagory:
 gog:
-  avaliable_date:
-  url:
+  avaliable_date: dateutil.parser.parse(release_date)
+  url: "https://www.gog.com" + search_result['url']
 steam:
   avaliable_date:
   url:

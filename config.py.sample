@@ -1,5 +1,5 @@
-MONGO_URI = ""
+MONGO_URI = "mongodb://127.0.0.1:27018/linuxgamingthings"
 YOUTUBE_APIKEY = ""
-SECRET_KEY = ''
+SECRET_KEY = 'qwreasdj2347833huijwefnjkasdfnjkasdfnjkdfhj234hj234njknmlmdjkwkl'
 TWITCH_CLIENTID = ""
 TWITCH_TOKEN = ""
